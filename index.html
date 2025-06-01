@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Daily Plans - JaguarTech Hub</title>
+    <style>
+        :root {
+            --primary-purple: #6a0dad;
+            --secondary-purple: #9b59b6;
+            --light-purple: #e6e6fa;
+            --dark-purple: #4b0082;
+            --accent: #ffd700;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-purple);
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            margin-top: 10px;
+        }
+        
+        .logo {
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background-color: var(--secondary-purple);
+            color: white;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            background-color: var(--dark-purple);
+        }
+        
+        .tab.active {
+            background-color: var(--primary-purple);
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .schedule {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .schedule th, .schedule td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .schedule th {
+            background-color: var(--primary-purple);
+            color: white;
+        }
+        
+        .schedule tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .schedule tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .time {
+            font-weight: bold;
+            color: var(--dark-purple);
+        }
+        
+        .activity {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .priority {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .high {
+            background-color: #ff6b6b;
+            color: white;
+        }
+        
+        .medium {
+            background-color: #ffd166;
+            color: #333;
+        }
+        
+        .low {
+            background-color: #06d6a0;
+            color: white;
+        }
+        
+        .diet-plan {
+            margin-top: 30px;
+        }
+        
+        .diet-week {
+            margin-bottom: 30px;
+        }
+        
+        .diet-week h3 {
+            color: var(--primary-purple);
+            border-bottom: 2px solid var(--secondary-purple);
+            padding-bottom: 5px;
+        }
+        
+        .diet-day {
+            margin: 15px 0;
+        }
+        
+        .diet-day-title {
+            font-weight: bold;
+            color: var(--dark-purple);
+            margin-bottom: 5px;
+        }
+        
+        .meal {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-purple);
+            border-radius: 4px;
+        }
+        
+        .meal-title {
+            font-weight: bold;
+            color: var(--dark-purple);
+        }
+        
+        .progress-section {
+            margin-top: 30px;
+        }
+        
+        .progress-day {
+            margin-bottom: 20px;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .progress-date {
+            font-weight: bold;
+            color: var(--primary-purple);
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .progress-actions {
+            margin-top: 10px;
+            text-align: right;
+        }
+        
+        button {
+            padding: 8px 15px;
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--dark-purple);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--dark-purple);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .schedule {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab {
+                margin: 5px 0;
+                width: 80%;
+                border-radius: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>My Daily Plans</h1>
+            <p class="subtitle">Designed by <span class="logo">JaguarTech Hub</span></p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="openTab(event, 'weekday')">Weekday Plan</button>
+            <button class="tab" onclick="openTab(event, 'weekend')">Weekend Plan</button>
+            <button class="tab" onclick="openTab(event, 'diet')">Weight Loss Diet</button>
+            <button class="tab" onclick="openTab(event, 'progress')">Daily Progress</button>
+            <button class="tab" onclick="openTab(event, 'tips')">Productivity Tips</button>
+        </div>
+        
+        <div id="weekday" class="tab-content active">
+            <h2>Monday to Friday Schedule</h2>
+            <p>Optimized schedule balancing work, gym, studies, and personal development.</p>
+            
+            <table class="schedule">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Activity</th>
+                        <th>Duration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time">5:30 AM - 6:00 AM</td>
+                        <td class="activity">
+                            <span>Wake up, Morning Routine</span>
+                            <span class="priority high">High</span>
+                        </td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">6:00 AM - 6:30 AM</td>
+                        <td class="activity">
+                            <span>Read self-improvement book (4-5 pages)</span>
+                            <span class="priority high">High</span>
+                        </td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">6:30 AM - 7:30 AM</td>
+                        <td class="activity">
+                            <span>Gym Session (Weight Loss Focus)</span>
+                            <span class="priority high">High</span>
+                        </td>
+                        <td>60 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">7:30 AM - 8:00 AM</td>
+                        <td class="activity">
+                            <span>Shower & Breakfast</span>
+                            <span class="priority medium">Medium</span>
+                        </td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">8:00 AM - 10:00 AM</td>
+                        <td class="activity">
+                            <span>Deep Work: Programming Learning/Practice</span>
+                            <span class="priority high">High</span>
+                        </td>
+                        <td>120 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">10:00 AM - 10:30 AM</td>
+                        <td class="activity">
+                            <span>Break & Snack</span>
+                            <span class="priority low">Low</span>
+                        </td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">10:30 AM - 12:30 PM</td>
+                        <td class="activity">
+                            <span>JaguarTech Hub Work (Client Projects)</span>
+                            <span class="priority medium">Medium</span>
+                        </td>
+                        <td>120 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">12:30 PM - 2:00 PM</td>
+                        <td class="activity">
+                            <span>Lunch & Travel to Bartending Job</span>
+                            <span class="priority medium">Medium</span>
+                        </td>
+                        <td>90 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">2:00 PM - 10:00 PM</td>
+                        <td class="activity">
+                            <span>Bartending Work</span>
+                            <span class="priority high">High</span>
+                        </td>
+                        <td>480 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">10:00 PM - 10:30 PM</td>
+                        <td class="activity">
+                            <span>Travel Home & Light Dinner</span>
+                            <span class="priority medium">Medium</span>
+                        </td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">10:30 PM - 11:00 PM</td>
+                        <td class="activity">
+                            <span>Review Academic Materials (Light Study)</span>
+                            <span class="priority medium">Medium</span>
+                        </td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">11:00 PM - 11:30 PM</td>
+                        <td class="activity">
+                            <span>Plan Next Day & Relaxation</span>
+                            <span class="priority low">Low</span>
+                        </td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">11:30 PM</td>
+                        <td class="activity">
+                            <span>Sleep</span>
+                            <span class="priority high">High</span>
+                        </td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="notes">
+                <h3>Notes:</h3>
+                <ul>
+                    <li>Use commute time for listening to educational podcasts or reviewing flashcards</li>
+                    <li>During bartending downtime, mentally review programming concepts</li>
+                    <li>Adjust timings as needed but maintain the structure</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="weekend" class="tab-content">
+            <h2>Saturday & Sunday Schedule</h2>
+            <p>Academic-focused schedule matching your 7am-5pm class schedule with 1pm break.</p>
+            
+            <table class="schedule">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Activity</th>
+                        <th>Duration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time">5:30 AM - 6:00 AM</td>
+                        <td class="activity">
+                            <span>Wake up, Morning Routine</span>
+                            <span class="priority high">High</span>
+                        </td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">6:00 AM - 6:30 AM</td>
+                        <td class="activity">
+                            <span>Read self-improvement book</span>
+                            <span class="priority high">High</span>
+                        </td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">6:30 AM - 6:45 AM</td>
+                        <td class="activity">
+                            <span>Quick Breakfast</span>
+                            <span class="priority medium">Medium</span>
+                        </td>
+                        <td>15 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">6:45 AM - 7:00 AM</td>
+                        <td class="activity">
+                            <span>Travel to University</span>
+                            <span class="priority medium">Medium</span>
+                        </td>
+                        <td>15 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">7:00 AM - 1:00 PM</td>
+                        <td class="activity">
+                            <span>University Classes (Morning Session)</span>
+                            <span class="priority high">High</span>
+                        </td>
+                        <td>360 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">1:00 PM - 2:00 PM</td>
+                        <td class="activity">
+                            <span>Lunch Break</span>
+                            <span class="priority medium">Medium</span>
+                        </td>
+                        <td>60 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">2:00 PM - 5:00 PM</td>
+                        <td class="activity">
+                            <span>University Classes (Afternoon Session)</span>
+                            <span class="priority high">High</span>
+                        </td>
+                        <td>180 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">5:00 PM - 5:30 PM</td>
+                        <td class="activity">
+                            <span>Travel Home</span>
+                            <span class="priority medium">Medium</span>
+                        </td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">5:30 PM - 6:30 PM</td>
+                        <td class="activity">
+                            <span>Rest & Light Snack</span>
+                            <span class="priority low">Low</span>
+                        </td>
+                        <td>60 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">6:30 PM - 8:00 PM</td>
+                        <td class="activity">
+                            <span>Academic Study & Assignment Work</span>
+                            <span class="priority high">High</span>
+                        </td>
+                        <td>90 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">8:00 PM - 9:00 PM</td>
+                        <td class="activity">
+                            <span>JaguarTech Hub Work (2 hours max)</span>
+                            <span class="priority medium">Medium</span>
+                        </td>
+                        <td>60 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">9:00 PM - 9:30 PM</td>
+                        <td class="activity">
+                            <span>Dinner</span>
+                            <span class="priority medium">Medium</span>
+                        </td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">9:30 PM - 10:00 PM</td>
+                        <td class="activity">
+                            <span>Programming Practice (Personal Projects)</span>
+                            <span class="priority medium">Medium</span>
+                        </td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">10:00 PM - 10:30 PM</td>
+                        <td class="activity">
+                            <span>Plan Next Day & Relaxation</span>
+                            <span class="priority low">Low</span>
+                        </td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td class="time">10:30 PM</td>
+                        <td class="activity">
+                            <span>Sleep</span>
+                            <span class="priority high">High</span>
+                        </td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="notes">
+                <h3>Notes:</h3>
+                <ul>
+                    <li>Use class breaks to review notes or prepare for next session</li>
+                    <li>Sunday evening should include planning for the upcoming week</li>
+                    <li>Bring healthy snacks to university to maintain energy</li>
+                    <li>Use travel time to listen to educational content</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="diet" class="tab-content">
+            <h2>Dynamic Weight Loss Diet Plan</h2>
+            <p>4-week rotating meal plan to support your gym routine and prevent diet boredom.</p>
+            
+            <div class="diet-plan">
+                <div class="diet-week">
+                    <h3>Week 1</h3>
+                    <div class="diet-day">
+                        <div class="diet-day-title">Monday</div>
+                        <div class="meal">
+                            <div class="meal-title">Breakfast (Post-Workout):</div>
+                            <p>Scrambled eggs (2 whole + 2 whites) with spinach and tomatoes, whole grain toast, green tea</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Mid-Morning Snack:</div>
+                            <p>Greek yogurt with berries and a sprinkle of chia seeds</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Lunch:</div>
+                            <p>Grilled chicken breast, quinoa, steamed broccoli, and mixed greens with olive oil dressing</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Afternoon Snack:</div>
+                            <p>Handful of almonds and an apple</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Dinner:</div>
+                            <p>Baked salmon, roasted sweet potatoes, and asparagus</p>
+                        </div>
+                    </div>
+                    
+                    <div class="diet-day">
+                        <div class="diet-day-title">Tuesday</div>
+                        <div class="meal">
+                            <div class="meal-title">Breakfast (Post-Workout):</div>
+                            <p>Protein smoothie (banana, spinach, almond milk, protein powder, peanut butter)</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Mid-Morning Snack:</div>
+                            <p>Hard-boiled eggs (2) with cucumber slices</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Lunch:</div>
+                            <p>Turkey breast wrap with whole wheat tortilla, avocado, lettuce, and tomato</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Afternoon Snack:</div>
+                            <p>Cottage cheese with pineapple chunks</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Dinner:</div>
+                            <p>Grilled lean beef, brown rice, and stir-fried mixed vegetables</p>
+                        </div>
+                    </div>
+                    
+                    <div class="diet-day">
+                        <div class="diet-day-title">Wednesday</div>
+                        <div class="meal">
+                            <div class="meal-title">Breakfast (Post-Workout):</div>
+                            <p>Oatmeal with protein powder, walnuts, and cinnamon</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Mid-Morning Snack:</div>
+                            <p>Protein bar (low sugar) and a pear</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Lunch:</div>
+                            <p>Grilled shrimp salad with quinoa, mixed greens, cherry tomatoes, and balsamic vinaigrette</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Afternoon Snack:</div>
+                            <p>Celery sticks with almond butter</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Dinner:</div>
+                            <p>Baked chicken thighs, mashed cauliflower, and green beans</p>
+                        </div>
+                    </div>
+                    
+                    <div class="diet-day">
+                        <div class="diet-day-title">Thursday</div>
+                        <div class="meal">
+                            <div class="meal-title">Breakfast (Post-Workout):</div>
+                            <p>Scrambled tofu with turmeric, whole grain toast, and sliced avocado</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Mid-Morning Snack:</div>
+                            <p>String cheese and whole grain crackers</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Lunch:</div>
+                            <p>Grilled fish (tilapia or cod), wild rice, and roasted Brussels sprouts</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Afternoon Snack:</div>
+                            <p>Handful of mixed nuts and an orange</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Dinner:</div>
+                            <p>Lean ground turkey chili with kidney beans (light on beans)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="diet-day">
+                        <div class="diet-day-title">Friday</div>
+                        <div class="meal">
+                            <div class="meal-title">Breakfast (Post-Workout):</div>
+                            <p>Protein pancakes (banana, eggs, oats) with sugar-free syrup</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Mid-Morning Snack:</div>
+                            <p>Greek yogurt with flaxseeds and blueberries</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Lunch:</div>
+                            <p>Grilled chicken Caesar salad (light on dressing, no croutons)</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Afternoon Snack:</div>
+                            <p>Protein shake with almond milk</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Dinner:</div>
+                            <p>Lean steak, roasted sweet potatoes, and sautéed mushrooms</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="diet-week">
+                    <h3>Week 2</h3>
+                    <div class="diet-day">
+                        <div class="diet-day-title">Monday</div>
+                        <div class="meal">
+                            <div class="meal-title">Breakfast:</div>
+                            <p>Chia pudding with almond milk, protein powder, and mixed berries</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Snack:</div>
+                            <p>Hard-boiled eggs with carrot sticks</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Lunch:</div>
+                            <p>Grilled chicken with roasted vegetables and quinoa</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Snack:</div>
+                            <p>Cottage cheese with cucumber slices</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Dinner:</div>
+                            <p>Baked cod with lemon, roasted potatoes, and steamed greens</p>
+                        </div>
+                    </div>
+                    
+                    <div class="diet-day">
+                        <div class="diet-day-title">Tuesday</div>
+                        <div class="meal">
+                            <div class="meal-title">Breakfast:</div>
+                            <p>Vegetable omelet with whole grain toast</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Snack:</div>
+                            <p>Protein smoothie with spinach and banana</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Lunch:</div>
+                            <p>Turkey and avocado wrap with side salad</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Snack:</div>
+                            <p>Almonds and an apple</p>
+                        </div>
+                        <div class="meal">
+                            <div class="meal-title">Dinner:</div>
+                            <p>Grilled shrimp skewers with brown rice and vegetables</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional days for Week 2 would go here -->
+                </div>
+                
+                <div class="notes">
+                    <h3>Diet Guidelines:</h3>
+                    <ul>
+                        <li>Rotate through 4 different weekly plans to maintain variety</li>
+                        <li>Adjust portions based on your hunger and energy levels</li>
+                        <li>Drink at least 3 liters of water daily</li>
+                        <li>Meal prep on weekends to save time during weekdays</li>
+                        <li>Allow one cheat meal per week (not a whole cheat day)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="progress" class="tab-content">
+            <h2>Daily Progress Tracker</h2>
+            <p>Record your daily achievements, challenges, and reflections.</p>
+            
+            <div class="progress-section">
+                <div class="progress-day">
+                    <div class="progress-header">
+                        <div class="progress-date" id="current-date">Today's Date</div>
+                    </div>
+                    <textarea id="progress-notes" placeholder="Record your daily progress here..."></textarea>
+                    <div class="progress-actions">
+                        <button onclick="saveProgress()">Save Progress</button>
+                    </div>
+                </div>
+                
+                <div class="previous-entries">
+                    <h3>Previous Entries</h3>
+                    <div id="saved-entries"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="tips" class="tab-content">
+            <h2>Productivity Tips</h2>
+            
+            <div class="tips-section">
+                <h3>Time Management Strategies</h3>
+                <ul>
+                    <li><strong>Time Blocking:</strong> Stick to the schedule's time blocks as much as possible</li>
+                    <li><strong>Pomodoro Technique:</strong> Use 25-minute focused work sessions with 5-minute breaks</li>
+                    <li><strong>Prioritization:</strong> Always tackle high-priority tasks first when your energy is highest</li>
+                </ul>
+                
+                <h3>Study & Programming Focus</h3>
+                <ul>
+                    <li><strong>Active Recall:</strong> Test yourself on programming concepts rather than passive reading</li>
+                    <li><strong>Project-Based Learning:</strong> Apply programming concepts to real projects immediately</li>
+                </ul>
+                
+                <h3>Progress Tracking Tips</h3>
+                <ul>
+                    <li>Record both successes and challenges to identify patterns</li>
+                    <li>Note what time of day you're most productive</li>
+                    <li>Track which meals give you the most energy</li>
+                    <li>Review your entries weekly to adjust your approach</li>
+                </ul>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 JaguarTech Hub. All rights reserved.</p>
+            <p>Remember: Consistency beats intensity. Small daily improvements lead to massive results over time.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Display current date
+        const now = new Date();
+        document.getElementById('current-date').textContent = now.toDateString();
+        
+        // Tab functionality
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            const tabs = document.getElementsByClassName("tab");
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+            
+            // Load saved entries when progress tab is opened
+            if (tabName === 'progress') {
+                loadSavedEntries();
+            }
+        }
+        
+        // Progress tracking functionality
+        function saveProgress() {
+            const notes = document.getElementById('progress-notes').value;
+            const date = document.getElementById('current-date').textContent;
+            
+            if (notes.trim() === '') {
+                alert('Please enter some notes before saving.');
+                return;
+            }
+            
+            // Save to localStorage
+            const entry = {
+                date: date,
+                notes: notes
+            };
+            
+            let entries = JSON.parse(localStorage.getItem('progressEntries') || '[]');
+            entries.unshift(entry); // Add new entry to beginning
+            localStorage.setItem('progressEntries', JSON.stringify(entries));
+            
+            // Clear textarea
+            document.getElementById('progress-notes').value = '';
+            
+            // Reload saved entries
+            loadSavedEntries();
+            
+            alert('Progress saved successfully!');
+        }
+        
+        function loadSavedEntries() {
+            const entries = JSON.parse(localStorage.getItem('progressEntries') || '[]');
+            const container = document.getElementById('saved-entries');
+            
+            if (entries.length === 0) {
+                container.innerHTML = '<p>No saved entries yet.</p>';
+                return;
+            }
+            
+            let html = '';
+            entries.forEach(entry => {
+                html += `
+                    <div class="progress-day" style="margin-bottom: 20px;">
+                        <div class="progress-header">
+                            <div class="progress-date">${entry.date}</div>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; white-space: pre-wrap;">${entry.notes}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Load saved entries when page loads if on progress tab
+        window.onload = function() {
+            if (window.location.hash === '#progress') {
+                document.querySelector('.tab[onclick*="progress"]').click();
+            }
+            loadSavedEntries();
+        };
+    </script>
+</body>
+</html>
